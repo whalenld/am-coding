@@ -1,11 +1,13 @@
 
 
 
+
 import Activities from './components/Activities';
 import Leaderboard from './components/Leaderboard';
 import Teams from './components/Teams';
 import Users from './components/Users';
 import Workouts from './components/Workouts';
+import RegistrationForm from './components/RegistrationForm';
 import { Routes, Route, Link } from 'react-router-dom';
 
 
@@ -34,6 +36,9 @@ function App() {
             <li className="nav-item">
               <Link className="nav-link" to="/workouts">Workouts</Link>
             </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/register">Register</Link>
+            </li>
           </ul>
         </div>
       </nav>
@@ -44,6 +49,7 @@ function App() {
           <Route path="/teams" element={<Teams />} />
           <Route path="/users" element={<Users />} />
           <Route path="/workouts" element={<Workouts />} />
+          <Route path="/register" element={<RegistrationForm />} />
           <Route path="/" element={<h2>Welcome to OctoFit Tracker!</h2>} />
         </Routes>
       </div>

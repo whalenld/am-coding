@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 const Teams = () => {
+
   const [teams, setTeams] = useState([]);
   const endpoint = `https://${process.env.REACT_APP_CODESPACE_NAME}-8000.app.github.dev/api/teams/`;
 
@@ -10,7 +11,7 @@ const Teams = () => {
       .then(data => {
         console.log('Fetched teams from:', endpoint);
         console.log('Teams data:', data);
-        setTeams(Array.isArray(data) ? data : data.results || []);
+        setTeams(data.results || []);
       })
       .catch(err => console.error('Error fetching teams:', err));
   }, [endpoint]);
@@ -18,11 +19,22 @@ const Teams = () => {
   return (
     <div>
       <h2>Teams</h2>
-      <ul>
-        {teams.map((team, idx) => (
-          <li key={team.id || idx}>{team.name || JSON.stringify(team)}</li>
-        ))}
-      </ul>
+      <table className="table table-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          {teams.map((team, idx) => (
+            <tr key={team.id || idx}>
+              <td>{idx + 1}</td>
+              <td>{team.name}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

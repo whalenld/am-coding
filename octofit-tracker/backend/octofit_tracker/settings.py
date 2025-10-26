@@ -1,3 +1,8 @@
+# Django REST Framework pagination settings
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 100
+}
 """
 Django settings for octofit_tracker project.
 
@@ -46,8 +51,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'octofit_tracker',
     'rest_framework',
+    'rest_framework.authtoken',
     'djongo',
     'corsheaders',
+    'allauth',
+    'allauth.account',
 ]
 
 MIDDLEWARE = [

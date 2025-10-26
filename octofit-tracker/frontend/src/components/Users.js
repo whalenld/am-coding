@@ -18,11 +18,26 @@ const Users = () => {
   return (
     <div>
       <h2>Users</h2>
-      <ul>
-        {users.map((user, idx) => (
-          <li key={user.id || idx}>{user.username || user.name || JSON.stringify(user)}</li>
-        ))}
-      </ul>
+      <table className="table table-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Team</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map((user, idx) => (
+            <tr key={user.id || idx}>
+              <td>{idx + 1}</td>
+              <td>{user.name || user.username}</td>
+              <td>{user.email}</td>
+              <td>{user.team?.name || '-'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
