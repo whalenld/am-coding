@@ -1,0 +1,148 @@
+
+body {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  color: #22223b;
+  min-height: 100vh;
+}
+
+.App {
+  text-align: center;
+  min-height: 100vh;
+}
+
+
+.octofit-logo {
+  height: 48px;
+  width: 48px;
+  margin-right: 16px;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+
+.App-header {
+  background-color: #22223b;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: #f2e9e4;
+}
+
+
+.App-link {
+  color: #4ea8de;
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+.App-link:hover {
+  color: #4361ee;
+}
+
+/* Navigation Bar */
+.navbar {
+  background: linear-gradient(90deg, #4ea8de 0%, #4361ee 100%);
+  box-shadow: 0 2px 8px rgba(67, 97, 238, 0.08);
+}
+.navbar-brand {
+  color: #f2e9e4 !important;
+  font-weight: bold;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+}
+.navbar-nav .nav-link {
+  color: #f2e9e4 !important;
+  margin-right: 10px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.navbar-nav .nav-link:hover {
+  color: #b5179e !important;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  color: #4361ee;
+  font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* Table Styling */
+table {
+  background: #f2e9e4;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(67, 97, 238, 0.08);
+}
+th {
+  background: #4ea8de !important;
+  color: #fff !important;
+  font-weight: 600;
+}
+td {
+  color: #22223b;
+}
+tr:nth-child(even) td {
+  background: #e0e1dd;
+}
+tr:hover td {
+  background: #bde0fe;
+}
+
+/* Buttons */
+.btn-primary, .btn-outline-primary {
+  background: linear-gradient(90deg, #4361ee 0%, #4ea8de 100%);
+  color: #fff;
+  border: none;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s;
+}
+.btn-primary:hover, .btn-outline-primary:hover {
+  background: linear-gradient(90deg, #b5179e 0%, #4ea8de 100%);
+  color: #fff;
+}
+.btn-outline-secondary {
+  border: 1px solid #4361ee;
+  color: #4361ee;
+  background: #fff;
+  transition: background 0.2s, color 0.2s;
+}
+.btn-outline-secondary:hover {
+  background: #4361ee;
+  color: #fff;
+}
+
+/* Card Styling */
+.card {
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 2px 12px rgba(67, 97, 238, 0.10);
+}
+.card-title {
+  color: #b5179e;
+  font-weight: bold;
+}
+
+/* Alerts */
+.alert-info {
+  background: #bde0fe;
+  color: #22223b;
+  border: none;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
