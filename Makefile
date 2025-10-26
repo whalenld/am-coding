@@ -29,74 +29,12 @@ wheel-install: install
 
 installed-list: wheel-install
 	@echo "Generating $(INSTALLED) by matching pip list to $(REQ)"
-	$(PYTHON) - <<'PY'
-import json, subprocess, re
-from pathlib import Path
-req_path=Path('$(REQ)')
-installed_path=Path('$(INSTALLED)')
-req_names=set()
-for line in req_path.read_text().splitlines():
-    line=line.strip()
-    if not line or line.startswith('#'): continue
-    if '#' in line: line=line.split('#',1)[0].strip()
-    line=line.split(';',1)[0].strip()
-    m=re.match(r"^([A-Za-z0-9_.\-]+)(?:\[.*\])?", line)
-    if m: req_names.add(m.group(1))
-res=subprocess.run(['$(PIP)','list','--format=json'], capture_output=True, text=True)
-pip_list=json.loads(res.stdout)
-lines=[]
-for pkg in pip_list:
-    if pkg['name'] in req_names:
-        lines.append(f"{pkg['name']} {pkg['version']}")
-installed_path.write_text('\n'.join(lines)+('\n' if lines else ''))
-print('Wrote', installed_path)
-PY
+	$(PYTHON) $(shell pwd)/octofit-tracker/backend/scripts/generate_installed_list.py $(REQ) $(INSTALLED) $(PIP)
 
 check: installed-list
 	@echo "Checking installed packages against requirements (writes $(MISMATCH))"
-	$(PYTHON) - <<'PY'
-from pathlib import Path
-import re
-from packaging.version import Version
-from packaging.specifiers import SpecifierSet
-req_file=Path('$(REQ)')
-inst_file=Path('$(INSTALLED)')
-out_file=Path('$(MISMATCH)')
-installed={}
-for line in inst_file.read_text().splitlines():
-    line=line.strip()
-    if not line: continue
-    parts=line.split()
-    installed[parts[0]]=parts[1] if len(parts)>1 else ''
-reqs=[]
-for line in req_file.read_text().splitlines():
-    raw=line.strip()
-    if not raw or raw.startswith('#'): continue
-    if '#' in raw: raw=raw.split('#',1)[0].strip()
-    raw=raw.split(';',1)[0].strip()
-    m=re.match(r"^([A-Za-z0-9_.\-]+)(?:\[.*\])?\s*([<>=!~].+)?$", raw)
-    if not m: continue
-    name=m.group(1)
-    spec=m.group(2) or ''
-    reqs.append((raw,name,spec))
-missing_or_mismatched=[]
-for raw,name,spec in reqs:
-    inst_ver=installed.get(name)
-    if inst_ver is None:
-        missing_or_mismatched.append(f"MISSING: {raw} -> not installed")
-        continue
-    if not spec:
-        continue
-    try:
-        specset=SpecifierSet(spec)
-        ok=Version(inst_ver) in specset
-    except Exception:
-        ok=False
-    if not ok:
-        missing_or_mismatched.append(f"MISMATCH: {raw} -> installed {inst_ver} does not satisfy {spec}")
-out_file.write_text('\n'.join(missing_or_mismatched)+('\n' if missing_or_mismatched else ''))
-print('Wrote', out_file)
-PY
+	$(PIP) install packaging >/dev/null
+	$(PYTHON) $(shell pwd)/octofit-tracker/backend/scripts/check_requirements.py $(REQ) $(INSTALLED) $(MISMATCH)
 
 freeze:
 	@echo "Freezing full environment to $(FREEZE)"
