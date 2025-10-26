@@ -1,3 +1,8 @@
+# Django REST Framework pagination settings
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 100
+}
 """
 Django settings for octofit_tracker project.
 
@@ -10,6 +15,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,7 +32,12 @@ SECRET_KEY = 'django-insecure-xigj57zsvmrh+naktj3lcrkw#1j$sr6#tiypenm(@$24%ksw7^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+codespace_name = os.environ.get('CODESPACE_NAME')
+codespace_host = f"{codespace_name}-8000.app.github.dev" if codespace_name else None
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+if codespace_host:
+    ALLOWED_HOSTS.append(codespace_host)
+ALLOWED_HOSTS.append('*')
 
 
 # Application definition
@@ -39,8 +51,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'octofit_tracker',
     'rest_framework',
+    'rest_framework.authtoken',
     'djongo',
     'corsheaders',
+    'allauth',
+    'allauth.account',
 ]
 
 MIDDLEWARE = [

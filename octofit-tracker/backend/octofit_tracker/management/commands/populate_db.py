@@ -7,11 +7,11 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self.stdout.write('Clearing old data...')
-        Leaderboard.objects.all().delete()
-        Activity.objects.all().delete()
-        User.objects.all().delete()
-        Team.objects.all().delete()
-        Workout.objects.all().delete()
+        # Delete each object individually to avoid unhashable errors
+        for model in [Leaderboard, Activity, Workout, User, Team]:
+            for obj in model.objects.all():
+                if getattr(obj, 'pk', None):
+                    obj.delete()
 
         self.stdout.write('Creating teams...')
         marvel = Team.objects.create(name='Marvel')
@@ -40,8 +40,3 @@ class Command(BaseCommand):
         Leaderboard.objects.create(team=dc, points=120)
 
         self.stdout.write(self.style.SUCCESS('Database populated with test data.'))
-
-        # Ensure unique index on email
-        with connection.cursor() as cursor:
-            cursor.execute('db.users.createIndex({ "email": 1 }, { "unique": true })')
-        self.stdout.write(self.style.SUCCESS('Ensured unique index on user email.'))
